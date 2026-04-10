@@ -6,14 +6,14 @@ from google.genai import types
 
 def run_python_file(working_directory, file_path, args=None):
     try:
-        workingDirectoryAbs = os.path.abspath(working_directory)
+        working_directory_abs = os.path.abspath(working_directory)
         target_file_path = os.path.normpath(
-            os.path.join(workingDirectoryAbs, file_path)
+            os.path.join(working_directory_abs, file_path)
         )
-        commonpath = os.path.commonpath([workingDirectoryAbs, target_file_path])
+        commonpath = os.path.commonpath([working_directory_abs, target_file_path])
         is_python_extension = file_path.endswith(".py")
 
-        if commonpath != workingDirectoryAbs:
+        if commonpath != working_directory_abs:
             return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
 
         if not os.path.isfile(target_file_path):
@@ -29,7 +29,7 @@ def run_python_file(working_directory, file_path, args=None):
         completed_process = subprocess.run(
             command,
             capture_output=True,
-            cwd=workingDirectoryAbs,
+            cwd=working_directory_abs,
             timeout=SUBPROCESS_TIMEOUT,
             text=True,
         )

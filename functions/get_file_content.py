@@ -5,13 +5,13 @@ from google.genai import types
 
 def get_file_content(working_directory, file_path):
     try:
-        workingDirectoryAbs = os.path.abspath(working_directory)
+        working_directory_abs = os.path.abspath(working_directory)
         target_file_path = os.path.normpath(
-            os.path.join(workingDirectoryAbs, file_path)
+            os.path.join(working_directory_abs, file_path)
         )
-        commonpath = os.path.commonpath([workingDirectoryAbs, target_file_path])
+        commonpath = os.path.commonpath([working_directory_abs, target_file_path])
 
-        if commonpath != workingDirectoryAbs:
+        if commonpath != working_directory_abs:
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
 
         if not os.path.isfile(target_file_path):

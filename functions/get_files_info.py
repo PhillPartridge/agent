@@ -4,26 +4,28 @@ from google.genai import types
 
 def get_files_info(working_directory, directory="."):
     try:
-        workingDirectoryAbs = os.path.abspath(working_directory)
-        targetDirectory = os.path.normpath(os.path.join(workingDirectoryAbs, directory))
-        commonpath = os.path.commonpath([workingDirectoryAbs, targetDirectory])
+        working_directory_abs = os.path.abspath(working_directory)
+        target_directory = os.path.normpath(
+            os.path.join(working_directory_abs, directory)
+        )
+        commonpath = os.path.commonpath([working_directory_abs, target_directory])
 
-        if commonpath != workingDirectoryAbs:
+        if commonpath != working_directory_abs:
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
 
-        if not os.path.isdir(targetDirectory):
+        if not os.path.isdir(target_directory):
             return f"Error: {directory} is not a directory"
 
-        contentsOfDirectory = []
-        contentsInDirectory = os.listdir(targetDirectory)
-        for content in contentsInDirectory:
-            fullPathContent = os.path.join(targetDirectory, content)
-            contentsOfDirectory.append(
-                f"- {content}: file_size={os.path.getsize(fullPathContent)} bytes, is_dir={os.path.isdir(fullPathContent)}"
+        contents_of_directory = []
+        contents_in_directory = os.listdir(target_directory)
+        for content in contents_in_directory:
+            full_path_content = os.path.join(target_directory, content)
+            contents_of_directory.append(
+                f"- {content}: file_size={os.path.getsize(full_path_content)} bytes, is_dir={os.path.isdir(full_path_content)}"
             )
-        joinedcontents = "\n".join(contentsOfDirectory)
+        joined_contents = "\n".join(contents_of_directory)
         return (
-            f"Result for {get_directory_label(directory)} directory:\n{joinedcontents}"
+            f"Result for {get_directory_label(directory)} directory:\n{joined_contents}"
         )
 
     except Exception as e:
